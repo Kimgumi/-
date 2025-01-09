@@ -1,0 +1,39 @@
+#qna {
+    display: none;
+}
+
+.qBox {
+    background-color: antiquewhite;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 20px;
+    width: 80%;
+}
+
+.answerList{
+    background-color: antiquewhite;
+    border-radius: 20px;
+    display: block;
+    width: 80%;
+    border: 0px;
+    font-size: 16px;
+}
+
+/*버튼 올릴 때랑 클릭 시 변화 만들기*/
+.answerList:hover, .answerList:focus {
+    background-color:palevioletred;
+    color:antiquewhite;
+}
+
+.status {
+    height: 20px;
+    width: 80%;
+    background-color:antiquewhite; 
+    border-radius: 20px;
+}
+
+.statusBar {
+    height: 100%;
+    border-radius: 20px;
+    background-color:darkorchid;
+}

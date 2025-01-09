@@ -1,5 +1,6 @@
 const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
+const endPoint = 12;
 
 function addAnswer(answerText,qIdx){
     // qnaList[qIdx].a[i].answer을 answerText으로 받아서 사용 
@@ -7,6 +8,11 @@ function addAnswer(answerText,qIdx){
     let aBox = document.querySelector('.aBox');
     let answer = document.createElement('button');
     answer.classList.add('answerList'); // 모두 부르기 위해 클래스 부여
+    answer.classList.add('my-3');
+    answer.classList.add('py-3');
+    answer.classList.add('mx-auto');
+    answer.classList.add('fadeIn');
+    
     aBox.appendChild(answer); // <div>태그 안에 <button>을 만듬 
     answer.innerHTML = answerText;
 
@@ -14,9 +20,16 @@ function addAnswer(answerText,qIdx){
         let children = document.querySelectorAll('.answerList');
         for(let i  = 0;i < children.length;i++){
             children[i].disabled = true; 
-            children[i].style.display = 'none';
+            children[i].style.WebkitAnimation = "fadeOut 1s";
+            children[i].style.animation = "fadeOut 1s";
+            // children[i].style.display = 'none';
         }
-        goNext(++qIdx);
+        setTimeout(() => {
+            for(let i = 0; i < children.length;i++){
+                children[i].style.display = 'none';
+            }
+            goNext(++qIdx);
+        },450);
     }, false); 
 }
 
@@ -27,6 +40,8 @@ function goNext(qIdx){
     for(let i in qnaList[qIdx].a){
         addAnswer(qnaList[qIdx].a[i].answer, qIdx);
     }
+    let status = document.querySelector('.statusBar');
+    status.style.width = (100/endPoint) * (qIdx+1) + '%';
 }
 
 
