@@ -2,40 +2,28 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const endPoint = 12;
-const select = [];
+const select = [0,0,0,0,0,0,0,0,0,0,0,0];
 
 function calResult(){
-    let pointArray = [
-        {name:'mouse', value:0, key:0},
-        {name:'cow', value:0, key:1},
-        {name:'tiger', value:0, key:2},
-        {name:'rabbit', value:0, key:3},
-        {name:'dragon', value:0, key:4},
-        {name:'snake', value:0, key:5},
-        {name:'horse', value:0, key:6},
-        {name:'sheep', value:0, key:7},
-        {name:'monkey', value:0, key:8},
-        {name:'chick', value:0, key:9},
-        {name:'dog', value:0, key:10},
-        {name:'pig', value:0, key:11},
-    ]
-    for(let i = 0;i < endPoint;i++){
-        let target = qnaList[i].a[select[i]];
-        for(let j = 0;j < target.length;j++){
-            for(let k = 0;k < pointArray.length;k++){
-                if(target.type[j] === pointArray[k].name){
-                    pointArray[k].value += 1;
-                }
-            }
-        }
-    }
-    let resultArray = pointArray.sort(function(a,b){
-        if(a.value > b.value){ return -1; }
-        if(a.value < b.value){ return 1; } 
-        return 0;
-    });
-    let resultword = resultArray[0].key;
+    console.log(select);
+    let resultword = select.indexOf(Math.max(...select));
     return resultword;
+}
+
+function setResult(){
+    let point = calResult();
+    const resultName = document.querySelector('.resultName');
+    resultName.innerHTML = infoList[point].name;
+
+    let resultImg = document.createElement('Img');
+    const imgDiv = document.querySelector('#resultImg');
+    let imgURL = 'img/imagee-' + point + '.png';
+    resultImg.src = imgURL;
+    resultImg.alt = point;
+    imgDiv.appendChild(resultImg);
+
+    const resultDesc = document.querySelector('.resultDesc');
+    resultDesc.innerHTML = infoList[point].desc;
 }
 
 function goResult(){
@@ -47,11 +35,11 @@ function goResult(){
         setTimeout(() => {
             qna.style.display = "none";
             result.style.display = "block";
-        },450)
-    },450);
+        },450)});
+        setResult();
 }
 
-function addAnswer(answerText,qIdx,idx){
+function addAnswer(answerText,qIdx,idx){ // 답변/질문지 번호/선택 답
     // qnaList[qIdx].a[i].answer을 answerText으로 받아서 사용 
     // 버튼으로 관리하도록 개발
     let aBox = document.querySelector('.aBox');
@@ -65,7 +53,8 @@ function addAnswer(answerText,qIdx,idx){
     aBox.appendChild(answer); // <div>태그 안에 <button>을 만듬 
     answer.innerHTML = answerText;
 
-    answer.addEventListener("click",function(){
+    // 답변 누르고 난 뒤
+    answer.addEventListener("click",function(){ 
         let children = document.querySelectorAll('.answerList');
         for(let i  = 0;i < children.length;i++){
             children[i].disabled = true; 
@@ -74,7 +63,10 @@ function addAnswer(answerText,qIdx,idx){
             // children[i].style.display = 'none';
         }
         setTimeout(() => {
-            select[qIdx] = idx; // 결과 담기
+            let target = qnaList[qIdx].a[idx].type;
+            for(let j = 0;j < target.length;j++){
+                select[target[j]] += 1; // 결과 담기
+            }
             for(let i = 0; i < children.length;i++){
                 children[i].style.display = 'none';
             }
@@ -92,7 +84,7 @@ function goNext(qIdx){
     let qBox = document.querySelector('.qBox');
     qBox.innerHTML = qnaList[qIdx].q;
     for(let i in qnaList[qIdx].a){
-        addAnswer(qnaList[qIdx].a[i].answer, qIdx);
+        addAnswer(qnaList[qIdx].a[i].answer, qIdx, i); 
     }
     let status = document.querySelector('.statusBar');
     status.style.width = (100/endPoint) * (qIdx+1) + '%';
