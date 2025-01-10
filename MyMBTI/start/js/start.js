@@ -17,7 +17,7 @@ function setResult(){
 
     let resultImg = document.createElement('Img');
     const imgDiv = document.querySelector('#resultImg');
-    let imgURL = 'img/imagee-' + point + '.png';
+    let imgURL = 'img/image-' + point + '.png';
     resultImg.src = imgURL;
     resultImg.alt = point;
     resultImg.classList.add('img-fluid');
@@ -94,11 +94,11 @@ function goNext(qIdx){
 
 
 function begin(){
-    main.style.WebkitAnimation = "fadeOut 1s";
-    main.style.animation = "fadeOut 1s";
+    main.style.WebkitAnimation = "fadeOut 0.5s";
+    main.style.animation = "fadeOut 0.5s";
     setTimeout(() => {
-        qna.style.WebkitAnimation = "fadeIn 1s";
-        qna.style.animation = "fadeIn 1s";
+        qna.style.WebkitAnimation = "fadeIn 0.5s";
+        qna.style.animation = "fadeIn 0.5s";
         setTimeout(() => {
             main.style.display = "none";
             qna.style.display = "block";
