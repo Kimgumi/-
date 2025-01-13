@@ -3,6 +3,7 @@ const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const endPoint = 12;
 const select = [0,0,0,0,0,0,0,0,0,0,0,0];
+const answerList = [0,0,0,0,0,0,0,0,0,0,0,0];
 
 function calResult(){
     console.log(select);
@@ -14,6 +15,15 @@ function setResult(){
     let point = calResult();
     const resultName = document.querySelector('.resultName');
     resultName.innerHTML = infoList[point].name;
+    
+    console.log(answerList);
+    const AnswerGroup = document.querySelector(".AnswerGroup");
+    for(let i = 0;i < endPoint;i++){
+        let tempLI = document.createElement("li");
+        let temptext = qnaList[i].q + " " + qnaList[i].a[answerList[i]].answer;
+        tempLI.innerText = temptext;
+        AnswerGroup.appendChild(tempLI);
+    }
 
     let resultImg = document.createElement('Img');
     const imgDiv = document.querySelector('#resultImg');
@@ -56,6 +66,7 @@ function addAnswer(answerText,qIdx,idx){ // 답변/질문지 번호/선택 답
 
     // 답변 누르고 난 뒤
     answer.addEventListener("click",function(){ 
+        answerList[qIdx] = idx;
         let children = document.querySelectorAll('.answerList');
         for(let i  = 0;i < children.length;i++){
             children[i].disabled = true; 
